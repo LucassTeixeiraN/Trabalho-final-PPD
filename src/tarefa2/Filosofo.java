@@ -1,7 +1,7 @@
 package tarefa2;
 import java.util.Random;
 
-class Filosofo extends Thread {
+public class Filosofo extends Thread {
     private final int id;
     private final Garfo garfoEsquerdo; 
     private final Garfo garfoDireito;  
@@ -10,6 +10,14 @@ class Filosofo extends Thread {
     
     private final Random random = new Random();
     private int refeicoes = 0; 
+
+    public Garfo getPrimeiroGarfo() {
+        return primeiroGarfo;
+    }
+
+    public Garfo getSegundoGarfo() {
+        return segundoGarfo;
+    }
 
     public long getId() {
         return id;

@@ -1,6 +1,6 @@
 package tarefa1;
 
-class Garfo {
+public class Garfo {
     private final int id;
 
     public Garfo(int id) {

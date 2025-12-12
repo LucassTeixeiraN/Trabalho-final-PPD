@@ -1,7 +1,7 @@
 package tarefa1;
 import java.util.Random;
 
-class Filosofo extends Thread {
+public class Filosofo extends Thread {
     private final int id;
     private final Garfo garfoEsquerdo;
     private final Garfo garfoDireito;
@@ -13,7 +13,6 @@ class Filosofo extends Thread {
         this.garfoDireito = direito;
     }
 
-    // Método auxiliar para gerar logs
     private void log(String acao) {
         System.out.printf("Filósofo %d: %s%n", id, acao);
     }
@@ -22,6 +21,12 @@ class Filosofo extends Thread {
         // Tempo aleatório entre 1000ms (1s) e 3000ms (3s)
         int tempo = random.nextInt(2001) + 1000; 
         Thread.sleep(tempo);
+    }
+
+    private int refeicoes = 0;
+
+    public int getRefeicoes() {
+        return refeicoes;
     }
 
     @Override
@@ -42,6 +47,7 @@ class Filosofo extends Thread {
                     // Bloqueia o garfo direito
                     synchronized (garfoDireito) {
                         log("Pegou o garfo direito (" + garfoDireito.getId() + "). COMEÇOU A COMER.");
+                        refeicoes++;
                         simularTempo();
                     }
                 }

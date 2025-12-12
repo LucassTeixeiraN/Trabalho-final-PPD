@@ -135,6 +135,23 @@ O Fairness é garantido pelo sistema de estados e notificação:
 O Deadlock é impossível porque a aquisição dos recursos é atômica. O filósofo só muda para o estado COMENDO se, e somente se, ambos os garfos estiverem livres naquele instante exato. Não existe o estado parcial "peguei o esquerdo, esperando o direito".
 
 ## Comparação e Trade-offs com as outras tarefas
+
+### Resultados
+```bash
+Filósofo 0: Execução finalizada.
+Filósofo 0 comeu 22 vezes.
+Filósofo 1: Execução finalizada.
+Filósofo 1 comeu 22 vezes.
+Filósofo 2: Execução finalizada.
+Filósofo 2 comeu 22 vezes.
+Filósofo 3: Execução finalizada.
+Filósofo 3 comeu 24 vezes.
+Filósofo 4: Execução finalizada.
+Filósofo 4 comeu 23 vezes.
+-----------------------------
+Total de refeições servidas: 113
+```
+
 * Tarefa 2: É rápida, mas requer que as threads saibam uma ordem global de recursos.
 
 * Tarefa 3: É muito segura, mas limita artificialmente a concorrência (max 4 comendo), mesmo que garfos estejam livres (ex: filósofos 0 e 2 poderiam comer, mas se 0,1,2,3 estiverem sentados, o 4 não entra).

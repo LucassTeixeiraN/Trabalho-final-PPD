@@ -10,6 +10,14 @@ public class Filosofo extends Thread {
     private final Random random = new Random();
     private int refeicoes = 0;
 
+    //Atributos para métrica
+    private long tempoEsperaTotal = 0;
+    private long tempoComendoTotal = 0;
+    private int tentativasComer = 0;
+
+    public long getTempoEsperaTotal() { return tempoEsperaTotal; }
+    public long getTempoComendoTotal() { return tempoComendoTotal; }
+
     public Filosofo(int id, Garfo esquerdo, Garfo direito, Semaphore semaforoMesa) {
         this.id = id;
         this.garfoEsquerdo = esquerdo;
@@ -38,6 +46,8 @@ public class Filosofo extends Thread {
     public void run() {
         try {
             while (!Thread.currentThread().isInterrupted()) {
+                long inicioEspera = System.currentTimeMillis();
+
                 log("Começou a PENSAR.");
                 simularTempo();
 
@@ -48,12 +58,21 @@ public class Filosofo extends Thread {
                     log("Conseguiu lugar à mesa. Tentando pegar garfo esquerdo (" + garfoEsquerdo.getId() + ")...");
                     
                     synchronized (garfoEsquerdo) {
+
                         log("Pegou garfo esquerdo (" + garfoEsquerdo.getId() + "). Tentando pegar direito (" + garfoDireito.getId() + ")...");
                         
                         synchronized (garfoDireito) {
+                            long fimEspera = System.currentTimeMillis();
+                            tempoEsperaTotal += (fimEspera - inicioEspera);
+                            tentativasComer++;
+
+                            long inicioComer = System.currentTimeMillis();
                             log("Pegou garfo direito (" + garfoDireito.getId() + "). COMEÇOU A COMER.");
                             refeicoes++;
                             simularTempo();
+
+                            long fimComer = System.currentTimeMillis();
+                            tempoComendoTotal += (fimComer - inicioComer);
                         }
                     }
                     log("Terminou de comer e SOLTOU os garfos.");

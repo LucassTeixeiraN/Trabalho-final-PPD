@@ -7,6 +7,14 @@ public class Filosofo extends Thread {
     private final Garfo garfoDireito;  
     private final Garfo primeiroGarfo;
     private final Garfo segundoGarfo;
+
+    //Atributos para métrica
+    private long tempoEsperaTotal = 0;
+    private long tempoComendoTotal = 0;
+    private int tentativasComer = 0;
+
+    public long getTempoEsperaTotal() { return tempoEsperaTotal; }
+    public long getTempoComendoTotal() { return tempoComendoTotal; }
     
     private final Random random = new Random();
     private int refeicoes = 0; 
@@ -60,15 +68,25 @@ public class Filosofo extends Thread {
 
                 // Tentar pegar garfos 
                 log("Está com FOME. Tentando pegar o primeiro garfo (" + primeiroGarfo.getId() + ")...");
-                
+
+                long inicioEspera = System.currentTimeMillis();
+
                 synchronized (primeiroGarfo) {
                     log("Pegou o primeiro garfo (" + primeiroGarfo.getId() + "). Tentando pegar o segundo (" + segundoGarfo.getId() + ")...");
                     
                     synchronized (segundoGarfo) {
+                        long fimEspera = System.currentTimeMillis();
+                        tempoEsperaTotal += (fimEspera - inicioEspera);
+                        tentativasComer++;
+
+                        long inicioComer = System.currentTimeMillis();
+
                         log("Pegou o segundo garfo (" + segundoGarfo.getId() + "). COMEÇOU A COMER.");
                         refeicoes++;
-                        
                         simularTempo();
+
+                        long fimComer = System.currentTimeMillis();
+                        tempoComendoTotal += (fimComer - inicioComer);
                     }
                 }
 

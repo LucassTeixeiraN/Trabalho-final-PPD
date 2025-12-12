@@ -1,3 +1,50 @@
+# Projeto: O Jantar dos Filósofos (Programação Paralela)
+
+Este projeto apresenta múltiplas soluções para o clássico problema de concorrência "O Jantar dos Filósofos", explorando técnicas de prevenção de Deadlock e Starvation em Java.
+
+## Estrutura do Projeto
+* `src/tarefa1`: Implementação ingênua (Suscetível a Deadlock).
+* `src/tarefa2`: Solução por Hierarquia de Recursos (Quebra de Simetria).
+* `src/tarefa3`: Solução por Semáforos (Limitação de Acesso/Garçom).
+* `src/tarefa4`: Solução por Monitores (Fairness e Wait/Notify).
+* `src/benchmark`: Ferramenta para executar testes de carga e gerar métricas.
+* `src/test`: Testes unitários para validar a lógica de cada solução.
+
+## Como Executar
+
+### Pré-requisitos
+* Java JDK 8 ou superior.
+
+### Compilação
+Navegue até a pasta `src` e compile todos os arquivos:
+```bash
+cd src
+javac tarefa1/*.java tarefa2/*.java tarefa3/*.java tarefa4/*.java benchmark/*.java test/*.java
+```
+### Executando as Soluções
+Para rodar uma solução específica visualmente:
+
+```Bash
+
+java tarefa2.Main
+# ou
+java tarefa4.Main
+```
+### Executando os Testes Unitários
+Para verificar a integridade lógica das soluções:
+
+```Bash
+java test.Testador
+java test.TestadorSemaforo
+java test.TestadorMonitor
+```
+
+Executando o Benchmark (Relatório)
+Para gerar as estatísticas de desempenho (5 minutos por teste):
+
+```Bash
+java benchmark.Benchmark
+```
 # Tarefa 1
 
 ## Explicação do deadlock

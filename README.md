@@ -72,3 +72,62 @@ Total de refeições servidas: 111
 
 * **Tarefa 2 (Hierarquia):** Tende a ser ligeiramente mais rápida, pois não há bloqueio prévio. O filósofo só para se o garfo estiver ocupado.
 * **Tarefa 3 (Semáforo):** Pode ter um número total de refeições levemente menor devido ao gargalo do semáforo, mas a diferença é marginal em sistemas com poucos processos (5 filósofos).
+
+# Tarefa 4
+Esta solução utiliza o padrão de projeto Monitor, onde uma classe intermediária controla o acesso aos recursos e gerencia os estados das threads.
+
+## Garantia de Fairness e prevenção de Starvation
+O Fairness é garantido pelo sistema de estados e notificação:
+
+1. Quando um filósofo fica FAMINTO, ele sinaliza sua intenção.
+2. Ele só espera (wait) se realmente não puder comer.
+3. Quando os vizinhos terminam, eles são obrigados (soltarGarfos) a testar se os vizinhos (o filósofo que estava esperando) podem comer agora.
+4. Isso cria um mecanismo de passagem de bastão, onde a liberação de recursos ativa ativamente os vizinhos interessados.
+
+## Prevenção de Deadlock
+O Deadlock é impossível porque a aquisição dos recursos é atômica. O filósofo só muda para o estado COMENDO se, e somente se, ambos os garfos estiverem livres naquele instante exato. Não existe o estado parcial "peguei o esquerdo, esperando o direito".
+
+## Comparação e Trade-offs com as outras tarefas
+* Tarefa 2: É rápida, mas requer que as threads saibam uma ordem global de recursos.
+
+* Tarefa 3: É muito segura, mas limita artificialmente a concorrência (max 4 comendo), mesmo que garfos estejam livres (ex: filósofos 0 e 2 poderiam comer, mas se 0,1,2,3 estiverem sentados, o 4 não entra).
+
+* Tarefa 4: É a solução mais robusta logicamente. Ela maximiza o paralelismo (permite que 0 e 2 comam, e depois 1 e 3) sem risco de deadlock e com controle fino de estado.
+
+<table>
+    <tr>
+        <th><b>Abordagem</b></th>
+        <th><b>Deadlock</b></th>
+        <th><b>Starvation</b></th>
+        <th><b>Complexidade</b></th>
+        <th><b>Desempenho</b></th>
+    </tr>
+    <tr>
+        <th><b>Tarefa 1</b></th>
+        <th>Sim</th>
+        <th>Sim</th>
+        <th>Baixo</th>
+        <th>N/A</th>
+    </tr>
+    <tr>
+        <th><b>Tarefa 2</b></th>
+        <th>Não</th>
+        <th>Possível</th>
+        <th>Média</th>
+        <th>Alto</th>
+    </tr>
+    <tr>
+        <th><b>Tarefa 3</b></th>
+        <th>Não</th>
+        <th>Não</th>
+        <th>Baixo</th>
+        <th>Médio</th>
+    </tr>
+    <tr>
+        <th><b>Tarefa 4</b></th>
+        <th>Não</th>
+        <th>Não</th>
+        <th>Alta</th>
+        <th>Alto</th>
+    </tr>
+</table>

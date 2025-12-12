@@ -37,3 +37,38 @@ Filósofo 4 comeu 21 vezes.
 -----------------------------
 Total de refeições servidas: 108
 ```
+
+# Tarefa 3
+
+A solução desse exercício limita a quantidade de filósofos que podem tentar pegar os garfos simultaneamente. Primeiro, o filósofo verifica se há vagas na mesa, se não houver ele entra em uma fila de espera, e quando um filósofo que está na mesa termina de comer, ele libera o espaço para que outro filósofo possa entrar na mesa.
+
+## Por que previne Deadlock?
+O deadlock clássico exige que todos os 5 filósofos segurem seu garfo esquerdo ao mesmo tempo, esperando pelo direito. Ao limitar a concorrência para 4 filósofos:
+
+* No pior caso, 4 filósofos sentam à mesa e pegam seus garfos da esquerda.
+* Resta 1 garfo livre na mesa (pois são 5 garfos no total).
+* Um desses 4 filósofos terá necessariamente o garfo da direita livre (Pelo Princípio da Casa dos Pombos).
+* Esse filósofo consegue comer e liberar seus dois garfos, permitindo que os outros prossigam.
+
+## Vantagens e Desvantagens
+* **Vantagem:** É uma solução justa e simples de implementar. Não exige que os filósofos saibam seus IDs ou se são pares/ímpares (como na Tarefa 2). Garante a ausência de Deadlock. 
+* **Desvantagem:** Reduz ligeiramente o paralelismo potencial. Em um cenário onde os recursos (garfos) estão livres, um filósofo pode ser impedido de comer apenas porque o limite de "pessoas na sala" foi atingido, mesmo que os garfos específicos que ele precisa estejam disponíveis. Além disso, semáforos adicionam um pequeno overhead de troca de contexto.
+
+## Comparação de Desempenho
+### Desempenho:
+```bash
+Filósofo 0: Execução finalizada pelo temporizador.
+Filósofo 0 comeu 23 vezes.
+Filósofo 1 comeu 22 vezes.
+Filósofo 2: Execução finalizada pelo temporizador.
+Filósofo 2 comeu 22 vezes.
+Filósofo 3: Execução finalizada pelo temporizador.
+Filósofo 3 comeu 22 vezes.
+Filósofo 4: Execução finalizada pelo temporizador.
+Filósofo 4 comeu 22 vezes.
+-----------------------------
+Total de refeições servidas: 111
+```
+
+* **Tarefa 2 (Hierarquia):** Tende a ser ligeiramente mais rápida, pois não há bloqueio prévio. O filósofo só para se o garfo estiver ocupado.
+* **Tarefa 3 (Semáforo):** Pode ter um número total de refeições levemente menor devido ao gargalo do semáforo, mas a diferença é marginal em sistemas com poucos processos (5 filósofos).
